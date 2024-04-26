@@ -1,5 +1,5 @@
-using API.Data;
-using Microsoft.EntityFrameworkCore;
+
+using API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,20 +7,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
-builder.Services.AddDbContext<DataContext>(opt =>
-{
-	opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 
-});
 
-builder.Services.AddCors();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
 
-app.UseAuthorization();
+app.UseAuthentication(); //Vc tem um token valido
+app.UseAuthorization(); //Vc tem um token mas o que vc pode fazer
+
+
 app.MapControllers();
 
 

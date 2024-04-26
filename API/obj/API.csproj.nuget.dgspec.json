@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Desenvolvimento\\cursoangular\\DatingApp\\api\\API.csproj": {}
+    "C:\\Desenvolvimento\\cursoangular\\DatingApp\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Desenvolvimento\\cursoangular\\DatingApp\\api\\API.csproj": {
+    "C:\\Desenvolvimento\\cursoangular\\DatingApp\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Desenvolvimento\\cursoangular\\DatingApp\\api\\API.csproj",
+        "projectUniqueName": "C:\\Desenvolvimento\\cursoangular\\DatingApp\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Desenvolvimento\\cursoangular\\DatingApp\\api\\API.csproj",
+        "projectPath": "C:\\Desenvolvimento\\cursoangular\\DatingApp\\API\\API.csproj",
         "packagesPath": "C:\\Users\\rcpri\\.nuget\\packages\\",
-        "outputPath": "C:\\Desenvolvimento\\cursoangular\\DatingApp\\api\\obj\\",
+        "outputPath": "C:\\Desenvolvimento\\cursoangular\\DatingApp\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rcpri\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -41,6 +41,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "target": "Package",
               "version": "[8.0.3, )"
@@ -48,6 +52,10 @@
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[8.0.3, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[7.5.1, )"
             }
           },
           "imports": [

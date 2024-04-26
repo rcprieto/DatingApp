@@ -482,3 +482,8 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+#Node
+/node_modules
+npm-degub.log
+yarn-error.log
