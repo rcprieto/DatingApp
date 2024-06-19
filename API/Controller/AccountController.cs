@@ -2,14 +2,18 @@
 using System.Text;
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API;
+
+[AllowAnonymous]
 public class AccountController : BaseApiController
 {
 	private readonly DataContext _context;
 	private readonly ITokenService _tokenService;
+
 
 	public AccountController(DataContext context, ITokenService tokenService)
 	{
