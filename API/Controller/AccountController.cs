@@ -2,6 +2,7 @@
 using System.Text;
 using API.Data;
 using API.Entities;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +14,13 @@ public class AccountController : BaseApiController
 {
 	private readonly DataContext _context;
 	private readonly ITokenService _tokenService;
+	private readonly IMapper _mapper;
 
-
-	public AccountController(DataContext context, ITokenService tokenService)
+	public AccountController(DataContext context, ITokenService tokenService, IMapper mapper)
 	{
 		_context = context;
 		_tokenService = tokenService;
+		_mapper = mapper;
 	}
 
 	[HttpPost("register")] //POST: api/account/register
@@ -32,12 +34,11 @@ public class AccountController : BaseApiController
 
 		}
 
-		var user = new AppUser
-		{
-			UserName = model.UserName.Trim(),
-			PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(model.Password)),
-			PasswordSalt = hmac.Key
-		};
+		var user = _mapper.Map<AppUser>(model);
+
+		user.UserName = model.UserName.Trim();
+		user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(model.Password));
+		user.PasswordSalt = hmac.Key;
 
 		_context.AppUsers.Add(user);
 		await _context.SaveChangesAsync();
@@ -45,7 +46,8 @@ public class AccountController : BaseApiController
 		return new UserDto
 		{
 			Username = user.UserName,
-			Token = _tokenService.CreateToken(user)
+			Token = _tokenService.CreateToken(user),
+			KnownAs = user.KnownAs
 
 		};
 
@@ -76,7 +78,8 @@ public class AccountController : BaseApiController
 		{
 			Username = user.UserName,
 			Token = _tokenService.CreateToken(user),
-			PhotoUrl = user.Photos.FirstOrDefault(c => c.IsMain)?.Url
+			PhotoUrl = user.Photos.FirstOrDefault(c => c.IsMain)?.Url,
+			KnownAs = user.KnownAs
 
 		};
 
