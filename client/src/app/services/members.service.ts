@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Member } from '../_modules/member';
 import { map, of, take } from 'rxjs';
-import { PaginatedResut } from '../_modules/pagination';
+import { PaginatedResut, Pagination } from '../_modules/pagination';
 import { UserParams } from '../_modules/userParams';
 import { AccountService } from './account.service';
 import { User } from '../_modules/user';
@@ -19,6 +19,7 @@ export class MembersService {
   memberCache = new Map();
   user: User | undefined;
   userParams: UserParams | undefined;
+
 
   constructor(private http: HttpClient, private accountService: AccountService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
@@ -107,6 +108,17 @@ export class MembersService {
     return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
   }
 
+  addLike(username: string){
+    return this.http.post(this.baseUrl + 'likes/' + username, {});
+  }
+
+  getLikes(predicate: string, pageNumber: number, pageSize: number){
+    let params = this.getPaginationHeader(pageNumber, pageSize);
+    params = params.append('predicate', predicate);
+    return this.getPaginatedResult<Member[]>(this.baseUrl + 'likes', params);
+  }
+
+
 
   private getPaginatedResult<T>(url: string, params: HttpParams) {
     const paginatedResult:  PaginatedResut<T> = new PaginatedResut<T>;
@@ -118,6 +130,7 @@ export class MembersService {
           paginatedResult.result = response.body;
         }
         const pagination = response.headers.get('Pagination');
+
         if (pagination)
           paginatedResult.pagination = JSON.parse(pagination);
 
