@@ -20,6 +20,7 @@ public static class ApplicationServiceExtensions
 		services.AddScoped<IAppUserRepository, AppUserRepository>();
 		services.AddScoped<IPhotoService, PhotoService>();
 		services.AddScoped<ILikesRepository, LikeRepository>();
+		services.AddScoped<IMessageRepository, MessageRepository>();
 		services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 		services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
 		services.AddScoped<LogUserActivity>();
