@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, take } from 'rxjs';
 import { Member } from 'src/app/_modules/member';
 import { Pagination } from 'src/app/_modules/pagination';
-import { User } from 'src/app/_modules/user';
 import { UserParams } from 'src/app/_modules/userParams';
-import { AccountService } from 'src/app/services/account.service';
 import { MembersService } from 'src/app/services/members.service';
 
 @Component({

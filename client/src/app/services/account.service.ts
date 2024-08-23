@@ -47,13 +47,25 @@ export class AccountService {
       )
    }
 
-   logout(){
+   logout()
+   {
     localStorage.removeItem('user');
-    this.setCurrentUser(null);
+    this.currentUserSource.next(null);
    }
 
-   setCurrentUser(user: User | null){
+   setCurrentUser(user: User)
+   {
+    user.roles =[];
+    const roles = this.getDecodedToken(user.token).role;
+    Array.isArray(roles) ?  user.roles = roles : user.roles.push(roles);
+
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
+   }
+
+   getDecodedToken(token: string)
+   {
+    //atob serve para decodificar 64bits
+    return JSON.parse(atob(token.split('.')[1]));
    }
 }

@@ -1,17 +1,17 @@
 ﻿using API.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data;
 
-public class DataContext : DbContext
+public class DataContext : IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
 {
 	public DataContext(DbContextOptions options) : base(options)
 	{
 		//dotnet ef migrations add NomeMigracao
 	}
 
-
-	public DbSet<AppUser> AppUsers { get; set; }
 	public DbSet<Photo> Photos { get; set; }
 	public DbSet<UserLike> Likes { get; set; }
 	public DbSet<Message> Messages { get; set; }
@@ -19,6 +19,19 @@ public class DataContext : DbContext
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
 		base.OnModelCreating(builder);
+
+		builder.Entity<AppUser>()
+		.HasMany(c => c.UserRoles)
+		.WithOne(c => c.User)
+		.HasForeignKey(c => c.UserId)
+		.IsRequired();
+
+		builder.Entity<AppRole>()
+		.HasMany(c => c.UserRoles)
+		.WithOne(c => c.Role)
+		.HasForeignKey(c => c.RoleId)
+		.IsRequired();
+
 
 		builder.Entity<UserLike>()
 		.HasKey(c => new { c.SourceUserId, c.TargetUserId });

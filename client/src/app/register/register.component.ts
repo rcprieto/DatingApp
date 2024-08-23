@@ -38,13 +38,16 @@ export class RegisterComponent {
       password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(15)]],
       confirmPassword: ['', [Validators.required, this.matchValues('password')]],
     });
+
     this.registerForm.controls['password'].valueChanges.subscribe({
+      //roda novamente o matchValues do confirmPassword se mudarem o password
       next: () => this.registerForm.controls['confirmPassword'].updateValueAndValidity()
     });
   }
 
   matchValues(matchTo: string): ValidatorFn{
     return(control: AbstractControl) =>{
+      //vai no pai do controle e busca o controle para comparar
       return control.value === control.parent?.get(matchTo)?.value ? null : {notMatching: true}
     }
   }

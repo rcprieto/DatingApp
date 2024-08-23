@@ -37,7 +37,7 @@ export class MemberDetailComponent implements OnInit {
 
   ngOnInit(): void {
     //Vewm do member-detailed.resolver, ver app-routing
-  //isso é feito para que ao abrir com a querystring já abra na aba certa, e para  isso o componente tabs tem q ter sido criado antes do ngOnInit
+    //isso é feito para que ao abrir com a querystring já abra na aba certa, e para  isso o componente tabs tem q ter sido criado antes do ngOnInit
     this.route.data.subscribe({
       next: p => this.member = p['member']
     });

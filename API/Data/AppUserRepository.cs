@@ -20,7 +20,7 @@ public class AppUserRepository : IAppUserRepository
 
 	public async Task<MemberDto> GetMemberAsync(string username)
 	{
-		return await _context.AppUsers
+		return await _context.Users
 		.Where(c => c.UserName == username)
 		.ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
 		.SingleOrDefaultAsync();
@@ -28,7 +28,7 @@ public class AppUserRepository : IAppUserRepository
 
 	public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
 	{
-		var query = _context.AppUsers.AsQueryable();
+		var query = _context.Users.AsQueryable();
 		query = query.Where(c => c.UserName != userParams.CurrentUserName && c.Gender == userParams.Gender);
 
 		var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MaxAge - 1));
@@ -50,19 +50,19 @@ public class AppUserRepository : IAppUserRepository
 
 	public async Task<AppUser> GetUserById(int id)
 	{
-		return await _context.AppUsers.FindAsync(id);
+		return await _context.Users.FindAsync(id);
 	}
 
 	public async Task<AppUser> GetUserByUsernameAsync(string username)
 	{
-		return await _context.AppUsers
+		return await _context.Users
 		.Include(c => c.Photos)
 		.SingleOrDefaultAsync(c => c.UserName == username);
 	}
 
 	public async Task<IEnumerable<AppUser>> GetUsersAsync()
 	{
-		return await _context.AppUsers
+		return await _context.Users
 		.Include(c => c.Photos)
 		.ToListAsync();
 	}

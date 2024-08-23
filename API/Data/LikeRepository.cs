@@ -23,7 +23,7 @@ public class LikeRepository : ILikesRepository
 
 	public async Task<PagedList<LikeDto>> GetUserLikes(LikeParams likeParams)
 	{
-		var users = _context.AppUsers.OrderBy(c => c.UserName).AsQueryable();
+		var users = _context.Users.OrderBy(c => c.UserName).AsQueryable();
 		var likes = _context.Likes.AsQueryable();
 
 		if (likeParams.Predicate == "liked")
@@ -56,7 +56,7 @@ public class LikeRepository : ILikesRepository
 
 	public async Task<AppUser> GetUserWithLikes(int userId)
 	{
-		return await _context.AppUsers
+		return await _context.Users
 		.Include(c => c.LikedUsers)
 		.FirstOrDefaultAsync(x => x.Id == userId);
 
