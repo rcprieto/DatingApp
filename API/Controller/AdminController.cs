@@ -45,6 +45,7 @@ namespace API.Controller
         [HttpPost("edit-roles/{username}")]
         public async Task<ActionResult> EditRoles(string username, [FromQuery] string roles)
         {
+
             if (string.IsNullOrEmpty(roles)) return BadRequest("Sem Roles");
 
             var selectedRoles = roles.Split(",").ToArray();

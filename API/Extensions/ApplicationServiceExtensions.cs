@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.Helpers;
 using API.Interfaces;
+using API.SignaIR;
 using Microsoft.EntityFrameworkCore;
 
 namespace API;
@@ -24,6 +25,9 @@ public static class ApplicationServiceExtensions
 		services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 		services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
 		services.AddScoped<LogUserActivity>();
+		//SignalIR
+		services.AddSignalR();
+		services.AddSingleton<PresenceTracker>();
 
 		return services;
 	}
